@@ -10,5 +10,4 @@ namespace RandomPasscodeGenerator.Models
     public string Passcode {get; set;}
     public int Count {get; set;}
   }
-
 }

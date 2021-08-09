@@ -21,43 +21,43 @@ namespace RandomPasscodeGenerator.Controllers
         [HttpGet("")]
         public IActionResult Index()
         {
-            var chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-            var stringChars = new char[13];
+            string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+            var stringChars = new char[14];
             Random random = new Random();
-            if(HttpContext.Session.GetInt32("count") == null)
-            {
-                HttpContext.Session.SetInt32("count", 0);
-            }
-            int count = (int)HttpContext.Session.GetInt32("count");
-
-            if (count == 0)
-            {   
-                count++;
-                HttpContext.Session.SetInt32("count", count);
-            }
-            else
-            {
-                count++;
-                HttpContext.Session.SetInt32("count", count);
-            }
-            // else
-            // {
-            //     tempCount ++;
-            //     HttpContext.Session.SetInt32("count", tempCount);
-            //     count = HttpContext.Session.GetInt32("count");
-            // }
 
             for (int i = 0; i < stringChars.Length; i++)
             {
                 stringChars[i] = chars[random.Next(chars.Length)];
             }
 
-            var finalPasscode = new String(stringChars);
+
+            if(HttpContext.Session.GetInt32("count") == null)
+            {
+                HttpContext.Session.SetInt32("count", 0);
+            }
+
+            int count = (int)HttpContext.Session.GetInt32("count");
+            
+            if (count == 0)
+            {   
+                count++;
+                HttpContext.Session.SetInt32("count", count);
+            }
+
+            else
+            {
+                count++;
+                HttpContext.Session.SetInt32("count", count);
+            }
+
+            string finalPasscode = new String(stringChars);
+
             RandomPasscode passcode = new RandomPasscode()
             {
                 Passcode = finalPasscode,
                 Count = (int)count
             };
+            
             return View("Index", passcode);
         }
 
