@@ -24,25 +24,28 @@ namespace RandomPasscodeGenerator.Controllers
             var chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
             var stringChars = new char[13];
             Random random = new Random();
-            if(HttpContext.Session == null)
+            if(HttpContext.Session.GetInt32("count") == null)
             {
                 HttpContext.Session.SetInt32("count", 0);
             }
-            int? count = HttpContext.Session.GetInt32("count");
-            int tempCount = 0;
+            int count = (int)HttpContext.Session.GetInt32("count");
 
             if (count == 0)
             {   
-                HttpContext.Session.SetInt32("count", 1);
-                count = HttpContext.Session.GetInt32("count");
-                tempCount = 1;
+                count++;
+                HttpContext.Session.SetInt32("count", count);
             }
             else
             {
-                tempCount ++;
-                HttpContext.Session.SetInt32("count", tempCount);
-                count = HttpContext.Session.GetInt32("count");
+                count++;
+                HttpContext.Session.SetInt32("count", count);
             }
+            // else
+            // {
+            //     tempCount ++;
+            //     HttpContext.Session.SetInt32("count", tempCount);
+            //     count = HttpContext.Session.GetInt32("count");
+            // }
 
             for (int i = 0; i < stringChars.Length; i++)
             {
