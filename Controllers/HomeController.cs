@@ -27,7 +27,7 @@ namespace RandomPasscodeGenerator.Controllers
             Random random = new Random();
 
 
-            int? count = ;
+            int? count = 0;
 
             if (count == 0)
             {
