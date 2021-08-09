@@ -1,0 +1,69 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using RandomPasscodeGenerator.Models;
+using Microsoft.AspNetCore.Http;
+
+namespace RandomPasscodeGenerator.Controllers
+{
+    public class HomeController : Controller
+    {
+        private readonly ILogger<HomeController> _logger;
+
+        public HomeController(ILogger<HomeController> logger)
+        {
+            _logger = logger;
+        }
+
+        [HttpGet("")]
+        public IActionResult Index()
+        {
+            var chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+            var stringChars = new char[13];
+            Random random = new Random();
+
+
+            int? count = ;
+
+            if (count == 0)
+            {
+                HttpContext.Session.SetInt32("count", 1);
+                count = HttpContext.Session.GetInt32("count");
+            }
+            else
+            {
+                count += 1;
+                HttpContext.Session.SetInt32("count", (int)count);
+                count = HttpContext.Session.GetInt32("count");
+            }
+
+            for (int i = 0; i < stringChars.Length; i++)
+            {
+                stringChars[i] = chars[random.Next(chars.Length)];
+            }
+
+            var finalPasscode = new String(stringChars);
+            RandomPasscode passcode = new RandomPasscode()
+            {
+                Passcode = finalPasscode,
+                Count = (int)count
+            };
+            return View("Index", passcode);
+        }
+
+        public IActionResult Privacy()
+        {
+            return View();
+        }
+
+        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+        public IActionResult Error()
+        {
+            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+    }
+}
