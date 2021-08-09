@@ -13,7 +13,6 @@ namespace RandomPasscodeGenerator.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-
         public HomeController(ILogger<HomeController> logger)
         {
             _logger = logger;
@@ -25,19 +24,23 @@ namespace RandomPasscodeGenerator.Controllers
             var chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
             var stringChars = new char[13];
             Random random = new Random();
-
-
-            int? count = 0;
+            if(HttpContext.Session == null)
+            {
+                HttpContext.Session.SetInt32("count", 0);
+            }
+            int? count = HttpContext.Session.GetInt32("count");
+            int tempCount = 0;
 
             if (count == 0)
-            {
+            {   
                 HttpContext.Session.SetInt32("count", 1);
                 count = HttpContext.Session.GetInt32("count");
+                tempCount = 1;
             }
             else
             {
-                count += 1;
-                HttpContext.Session.SetInt32("count", (int)count);
+                tempCount ++;
+                HttpContext.Session.SetInt32("count", tempCount);
                 count = HttpContext.Session.GetInt32("count");
             }
 
